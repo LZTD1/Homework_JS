@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Формулы</title>
+</head>
+<body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+<style>
+    body{
+        display: flex;
+        font-family: Arial, sans-serif;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: #f1eeee;
+    }
+    h1{
+        margin-top: 7vh;
+        text-align: center
+    }
+    #formInput{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+    div.green-btn, select, input{
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    }
+    select{
+        margin-left: 5px;
+        text-align: center;
+    }
+    div.green-btn{
+        width: 295px;
+        text-align: center;
+        background-color: rgba(76, 175, 80, 0.97);
+        margin-top: 25px;
+    }
+    .error {
+        padding: 8px;
+        border: 2px solid transparent; /* красная рамка */
+        animation: blink 1s 2;
+    }
+    .createRamka{
+        margin-top: 20px;
+        padding: 5px;
+        border: 2px solid #2e8b57;
+    }
+    @keyframes blink {
+        0% { border-color: transparent; }
+        50% { border-color: red}
+        100% {
+            border-color: transparent;
+        }
+    }
+</style>
+<h1>Калькулятор</h1>
+<form id="formInput">
+    <div class = "form_box">
+        <input type = 'text' id = 'enterX' placeholder="Введите значение X..." required>
+        <select id="selectID">
+            <option value="remove">Выберите функцию...</option>
+            <option value="sec">Секанс</option>
+            <option value="csc">Косеканс</option>
+            <option value="cot">Котангенс</option>
+            <option value="arcsin">Арксинус</option>
+            <option value="arccos">Арккосинус</option>
+            <option value="arcsec">Арксеканс</option>
+            <option value="arccsc">Арккосеканс</option>
+            <option value="arccot">Арккотангенс</option>
+            <option value="sinh">Гиперболический синус</option>
+            <option value="cosh">Гиперболический косинус</option>
+            <option value="tanh">Гиперболический тангенс</option>
+            <option value="sech">Гиперболический секанс</option>
+            <option value="csch">Гиперболический косенканс</option>
+            <option value="coth">Гиперболический котангенс</option>
+            <option value="arcsinh">Гиперболический арксинус</option>
+        </select>
+    </div>
+    <div id="buttonAnswer" class="green-btn">Жду значения!</div>
+</form>
+<div id="result-container">
+    <pre id="result" class="result"></pre>
+</div>
+<script>
+    function calculate(func, value) {
+        switch (func) {
+            case "sec":
+                return 1 / Math.cos(value);
+            case "csc":
+                return 1 / Math.sin(value);
+            case "cot":
+                return 1 / Math.tan(value);
+            case "arcsin":
+                return Math.asin(value);
+            case "arccos":
+                return Math.acos(value);
+            case "arcsec":
+                return Math.acos(1 / value);
+            case "arccsc":
+                return Math.asin(1 / value);
+            case "arccot":
+                return Math.atan(1 / value);
+            case "sinh":
+                return Math.sinh(value);
+            case "cosh":
+                return Math.cosh(value);
+            case "tanh":
+                return Math.tanh(value);
+            case "sech":
+                return 1 / Math.cosh(value);
+            case "csch":
+                return 1 / Math.sinh(value);
+            case "coth":
+                return 1 / Math.tanh(value);
+            case "arcsinh":
+                return Math.asinh(value);
+            default:
+                return NaN;
+        }
+    }
+    const x = document.querySelector('#enterX');
+
+    // обработчик для кнопки buttonAnswer
+    document.getElementById('buttonAnswer').addEventListener('click', function(event) {
+        event.preventDefault();
+        const x = document.querySelector('#enterX');
+        if (x.value.trim() === '') {
+            x.classList.add('error'); // добавляем класс error
+        }else{
+            const func = document.querySelector('#selectID');
+            //document.querySelector('#result-container').classList.add('createRamka'); //
+            document.querySelector('#buttonAnswer').innerHTML = calculate(func.value, x.value);
+            console.log(calculate(func.value, x.value))
+        }
+    });
+    document.getElementById('selectID').addEventListener('input', function(event) {
+        const func = document.querySelector('#selectID');
+        const x = document.querySelector('#enterX');
+        if (func.value.trim() !== 'remove') {
+            if(x.value.trim() === ""){
+                x.classList.add('error'); // добавляем класс error
+            }else{
+                document.querySelector('#buttonAnswer').innerHTML = calculate(func.value, x.value);
+            }
+        }else{
+            document.querySelector('#buttonAnswer').innerHTML = "Жду значения!";
+        }
+    });
+    document.getElementById('enterX').addEventListener('input', function() {
+        const x = document.querySelector('#enterX');
+        if(x.value.trim() === ""){
+            document.querySelector('#result-container').classList.remove('createRamka'); //
+        }
+        x.classList.remove('error'); // убираем класс error
+    });
+    // Завершение анимации удаляем класс error
+    x.addEventListener('animationend', function() {
+        x.classList.remove('error');
+    });
+</script>
+</body>
+</html>

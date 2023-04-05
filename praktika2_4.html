@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Число словами</title>
+</head>
+<body>
+
+<style>
+  body{
+    display: flex;
+    font-family: Arial, sans-serif;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #f1eeee;
+  }
+  h1{
+    text-align: center;
+    margin-top: 7vh;
+  }
+  input{
+      padding: 10px;
+      width: 40vh;
+      border-radius: 15px;
+      border: none;
+      font-size: 16px;
+      text-align: center;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  }
+  .error {
+      padding: 8px;
+      border: 2px solid transparent; /* красная рамка */
+      animation: blink 1s 2;
+  }
+
+  #submit_button{
+    border: none;
+    padding: 10px;
+    width: 10vh;
+    margin-left: 5px;
+    border-radius: 15px;
+    font-size: 16px;
+    background: #2bab64;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color .2s;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  }
+  #submit_button:hover{
+    background-color: #286c48;
+  }
+
+  @keyframes blink {
+    0% { border-color: transparent; }
+    50% { border-color: red}
+    100% {
+      border-color: transparent;
+    }
+  }
+  .create_input{
+      border: none;
+      padding: 10px;
+      width: 50vh;
+      margin-top: 25px;
+      border-radius: 15px;
+      font-size: 16px;
+      background: rgba(58, 147, 100, 0.64);
+      text-align: center;
+      overflow: hidden;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  }
+</style>
+<h1>Разбор чисел на слова</h1>
+<div class="rewrite">
+  <form>
+    <input maxlength="6" id = "number" placeholder="Введите число [0;1.000.000)" required>
+    <button id = "submit_button">Click!</button>
+  </form>
+</div>
+<div id="result-container">
+    <pre id="result" class="result"></pre>
+</div>
+<script>
+    function numberToWords(num) {
+        const ones = ['', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять', 'десять', 'одиннадцать', 'двенадцать', 'тринадцать', 'четырнадцать', 'пятнадцать', 'шестнадцать', 'семнадцать', 'восемнадцать', 'девятнадцать'];
+        const tens = ['', '', 'двадцать', 'тридцать', 'сорок', 'пятьдесят', 'шестьдесят', 'семьдесят', 'восемьдесят', 'девяносто'];
+        const hundreds = ['', 'сто', 'двести', 'триста', 'четыреста', 'пятьсот', 'шестьсот', 'семьсот', 'восемьсот', 'девятьсот'];
+
+        if (num === 0) {
+            return 'Ноль';
+        }
+
+        if (num < 0) {
+            return 'Минус ' + numberToWords(Math.abs(num));
+        }
+
+        let words = '';
+
+        if (num >= 1000 && num < 1000000) {
+            words += numberToWords(Math.floor(num / 1000)) + ' тысяч ';
+            num %= 1000;
+        }
+
+        if (num >= 1000000 && num < 1000000000) {
+            words += numberToWords(Math.floor(num / 1000000)) + ' миллионов ';
+            num %= 1000000;
+        }
+
+        if (num >= 1000000000 && num < 1000000000000) {
+            words += numberToWords(Math.floor(num / 1000000000)) + ' миллиардов ';
+            num %= 1000000000;
+        }
+
+        if (num >= 100 && num <= 999) {
+            words += hundreds[Math. floor(num / 100)] + ' ';
+            num %= 100;
+        }
+
+        if (num >= 20 && num <= 99) {
+            words += tens[Math.floor(num / 10)] + ' ';
+            num %= 10;
+        }
+
+        if (num >= 1 && num <= 19) {
+            words += ones[num];
+        }
+
+        return words.trim();
+    }
+
+
+    const button = document.querySelector('#submit_button');
+    button.addEventListener("click", function (event){
+    event.preventDefault();
+    const x = document.querySelector("#number");
+    if (x.value.trim() === '') {
+        x.classList.add('error');
+    }else{
+        if(x.value > 999999999){
+            console.log("!succes")
+            x.classList.add('error'); // добавляем класс error
+        }else{
+            document.querySelector('#result-container').classList.add('create_input');
+            document.querySelector('#result-container').innerHTML = numberToWords(x.value)
+            console.log(numberToWords(x.value))
+        }
+    }
+  });
+
+  document.getElementById('number').addEventListener('input', function() {
+      const x = document.querySelector("#number");
+      if (x.value.trim() === '') {
+          document.querySelector('#result-container').innerHTML = "";
+          document.querySelector('#result-container').classList.remove('create_input');
+      }else{
+          document.querySelector('#result-container').classList.add('create_input');
+          document.querySelector('#result-container').innerHTML = numberToWords(x.value)
+      }
+      document.querySelector('#number').classList.remove('error'); // убираем класс error
+  });
+  // Завершение анимации удаляем класс error
+  document.querySelector('#number').addEventListener('animationend', function() {
+      document.querySelector('#number').classList.remove('error');
+  });
+</script>
+</body>
+</html>

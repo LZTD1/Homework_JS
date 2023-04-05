@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Календарь</title>
+</head>
+<body>
+
+<style>
+    body{
+        display: flex;
+        font-family: Arial, sans-serif;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: #f1eeee;
+    }
+    h1{
+        text-align: center;
+        margin-top: 7vh;
+    }
+    input{
+        padding: 10px;
+        width: 40vh;
+        border-radius: 15px;
+        border: none;
+        font-size: 16px;
+        text-align: center;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    }
+    .error {
+        padding: 8px;
+        border: 2px solid transparent; /* красная рамка */
+        animation: blink 1s 2;
+    }
+
+    #submit_button{
+        border: none;
+        padding: 10px;
+        width: 10vh;
+        margin-left: 5px;
+        border-radius: 15px;
+        font-size: 16px;
+        background: #2bab64;
+        cursor: pointer;
+        text-align: center;
+        transition: background-color .2s;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    }
+    #submit_button:hover{
+        background-color: #286c48;
+    }
+
+    @keyframes blink {
+        0% { border-color: transparent; }
+        50% { border-color: red}
+        100% {
+            border-color: transparent;
+        }
+    }
+    .create_input{
+        border: none;
+        padding: 10px;
+        width: 50vh;
+        margin-top: 25px;
+        border-radius: 15px;
+        font-size: 16px;
+        background: rgba(58, 147, 100, 0.64);
+        text-align: center;
+        overflow: hidden;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    }
+
+    table{
+        margin-top: 10vh;
+        border-radius: 15px;
+        border: 2px solid rgb(58, 147, 100, 1); /* красная рамка */
+        background-color: rgb(58, 147, 100, 0.5);
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+    }
+    caption{
+        font-size: 20px;
+        font-weight: bold;
+    }
+    th{
+        width: 60px;
+        text-align: center;
+    }
+    .unhide{
+        visibility: visible;
+    }
+    #tappedDates{
+        margin-top: 5vh;
+        display: flex;
+        font-family: Arial, sans-serif;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        text-align: center;
+    }
+    #result-container{
+        visibility: hidden;
+    }
+</style>
+<h1>Календарь</h1>
+<div class="rewrite">
+    <form>
+        <input maxlength="2" id = "month" placeholder="Введите номер месяца" required>
+        <input maxlength="4" id = "year" placeholder="Введите год" required>
+        <button id = "submit_button">Click!</button>
+    </form>
+</div>
+<div id="result-container">
+    <table id="tableOfMonth">
+        <caption>Месяц: <span id="monthtoReplace"></span></caption>
+         <tr style="text-align:center;">
+            <th>Пн</th>
+            <th>Вт</th>
+            <th>Ср</th>
+            <th>Чт</th>
+            <th>Пт</th>
+            <th>Сб</th>
+            <th>Вс</th>
+        </tr>
+    </table>
+    <div id="tappedDates">
+        <span style="font-size: 20px; font-weight: bold;">Выбранные даты:</span>
+    </div>
+</div>
+<script>
+    const button = document.querySelector('#submit_button');
+    button.addEventListener("click", function (event){
+        event.preventDefault();
+        var flag = 0;
+        let inputs = document.getElementsByTagName('input');
+        for(let i = 0; i < inputs.length; i++) {
+            if(inputs[i].value.trim() === ''){
+                inputs[i].classList.add('error');
+                flag = 1;
+            }
+            if(inputs[i].id === "month" && (inputs[i].value <1 || inputs[i].value>12)){
+                inputs[i].classList.add('error');
+                flag = 1;
+            }
+            if(inputs[i].id === "year" && (inputs[i].value < 1990 || inputs[i].value > 2035)){
+                inputs[i].classList.add('error');
+                flag = 1;
+            }
+
+        }
+
+        if(flag === 0){
+            let rowsToDelete = document.querySelectorAll('#tableOfMonth tr:not(:first-child)');
+            rowsToDelete.forEach(row => row.remove());
+            document.querySelectorAll('#tappedDates span:not(:first-child)').forEach(row => row.remove());
+            document.querySelectorAll('#tappedDates span:not(:first-child)').forEach(row => row.remove());
+
+            const cube = document.createElement('span');
+            const year = document.querySelector('#year').value;
+            const month = document.querySelector('#month').value;
+            let months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"]
+
+            let date = new Date(year, month - 1, 1);
+            let firstDayOfWeek = date.getDay();
+            // Создаем массив для хранения дней месяца
+            let days = [];
+            // Добавляем пустые ячейки для смещения дней на правильную позицию в календаре
+            for (let i = 0; i < firstDayOfWeek; i++) {
+                days.push("");
+            }
+            // Добавляем дни месяца в массив
+            while (date.getMonth() === month - 1) {
+                days.push(date.getDate());
+                date.setDate(date.getDate() + 1);
+            }
+
+            var week = 0;
+            let table = document.getElementById('tableOfMonth').getElementsByTagName('tbody')[0];
+            let currentWeek;
+
+            days.forEach((value, index) => {
+                if(week === 0 || week%7===0){
+                    currentWeek = document.createElement('tr');
+                    table.appendChild(currentWeek);
+                }
+                let currentDay = document.createElement('td');
+                if(value!==""){
+                    currentDay.style = "text-align: center;\n" +
+                        "        transition: background-color 0.2s;\n" +
+                        "        background-color: rgba(0, 0, 0, 0.1);\n" +
+                        "        border: none;\n" +
+                        "        border-radius: 5px;";
+                }
+                currentDay.innerHTML = value;
+                currentWeek.appendChild(currentDay);
+
+                week += 1;
+            });
+
+
+            document.getElementById('tableOfMonth').classList.add('unhide');
+
+            document.getElementById('tableOfMonth').querySelector('#monthtoReplace').innerHTML = months[month-1];
+        }
+    });
+
+
+    let inputs = document.getElementsByTagName('input');
+    for(let i = 0; i < inputs.length; i++) {
+        inputs[i].addEventListener('animationend', function() {
+            inputs[i].classList.remove('error');
+        });
+        inputs[i].addEventListener('input', function() {
+            inputs[i].classList.remove('error');
+        });
+    }
+
+    let table = document.getElementById('tableOfMonth');
+    table.addEventListener('mouseover', function(event) {
+        if (event.target.tagName === 'TD' && event.target.textContent  !== '') {
+            if(event.target.style.backgroundColor !== "rgba(0, 0, 0, 0.7)"){
+                event.target.style = " text-align: center;\n" +
+                    "        transition: background-color 0.2s;\n" +
+                    "        background-color: rgba(0, 0, 0, 0.5);\n" +
+                    "        border: none;\n" +
+                    "        cursor: pointer;\n" +
+                    "        border-radius: 5px;";
+            }
+        }
+    });
+    table.addEventListener('mouseout', function(event) {
+        if (event.target.tagName === 'TD' && event.target.textContent  !== '') {
+            if(event.target.style.backgroundColor === "rgba(0, 0, 0, 0.5)"){
+                event.target.style = "text-align: center;\n" +
+                    "        transition: background-color 0.2s;\n" +
+                    "        background-color: rgba(0, 0, 0, 0.1);\n" +
+                    "        border: none;\n" +
+                    "        border-radius: 5px;";
+            }
+        }
+    });
+    table.addEventListener('click', function(event) {
+        if (event.target.tagName === 'TD' && event.target.textContent  !== '') {
+            document.getElementById('tappedDates').classList.add('unhide');
+
+            if(event.target.style.backgroundColor !== "rgba(0, 0, 0, 0.7)") { //  Добавляем в список
+                event.target.style = "text-align: center;\n" +
+                    "        transition: background-color 0.2s;\n" +
+                    "        background-color: rgba(0, 0, 0, 0.7);\n" +
+                    "        cursor: pointer;\n" +
+                    "        color: rgb(58, 147, 100, 1);\n" +
+                    "        border: none;\n" +
+                    "        border-radius: 5px;";
+
+                let currentDate = document.createElement('span');
+                currentDate.innerHTML = `${event.target.textContent}`;
+                document.getElementById('tappedDates').appendChild(currentDate);
+
+            }else{ // Убираем из списка
+                let allDates = document.getElementsByTagName("span");
+                for(let i = 0; i < allDates.length; i++) {
+                    if (allDates[i].tagName === 'SPAN' && (allDates[i].textContent  === event.target.textContent)) {
+                        allDates[i].remove();
+                    }
+                }
+                if(allDates.length === 2){
+                    document.getElementById('tappedDates').classList.remove('unhide');
+                }
+
+                event.target.style = "text-align: center;\n" +
+                    "        transition: background-color 0.2s;\n" +
+                    "        background-color: rgba(0, 0, 0, 0.1);\n" +
+                    "        text: rgba(0, 0, 0, 0.1);\n" +
+                    "        border: none;\n" +
+                    "        cursor: pointer;\n" +
+                    "        border-radius: 5px;";
+
+            }
+        }
+    });
+
+
+
+</script>
+</body>
+</html>
