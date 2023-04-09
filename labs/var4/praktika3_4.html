@@ -7,70 +7,6 @@
 <body>
 
 <style>
-    body{
-        display: flex;
-        font-family: Arial, sans-serif;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        background-color: #f1eeee;
-    }
-    h1{
-        text-align: center;
-        margin-top: 7vh;
-    }
-    input{
-        padding: 10px;
-        width: 40vh;
-        border-radius: 15px;
-        border: none;
-        font-size: 16px;
-        text-align: center;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    }
-    .error {
-        padding: 8px;
-        border: 2px solid transparent; /* красная рамка */
-        animation: blink 1s 2;
-    }
-
-    #submit_button{
-        border: none;
-        padding: 10px;
-        width: 10vh;
-        margin-left: 5px;
-        border-radius: 15px;
-        font-size: 16px;
-        background: #2bab64;
-        cursor: pointer;
-        text-align: center;
-        transition: background-color .2s;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    }
-    #submit_button:hover{
-        background-color: #286c48;
-    }
-
-    @keyframes blink {
-        0% { border-color: transparent; }
-        50% { border-color: red}
-        100% {
-            border-color: transparent;
-        }
-    }
-    .create_input{
-        border: none;
-        padding: 10px;
-        width: 50vh;
-        margin-top: 25px;
-        border-radius: 15px;
-        font-size: 16px;
-        background: rgba(58, 147, 100, 0.64);
-        text-align: center;
-        overflow: hidden;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    }
-
     table{
         margin-top: 10vh;
         border-radius: 15px;
@@ -96,37 +32,21 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-
         text-align: center;
     }
     #result-container{
         visibility: hidden;
     }
-    button.backBtn{
-        border: none;
-        padding: 10px;
-        position: absolute;
-        top: 0;
-        left: 0;
-        border-radius: 15px;
-        font-size: 12px;
-        background: rgba(1, 1, 1, 0.3);
-        cursor: pointer;
-        text-align: center;
-        transition: background-color .2s;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    }
-    button.backBtn:hover{
-        background-color: rgba(1, 1, 1, 0.5);
-    }
 </style>
+<link rel="stylesheet" href="styles.css">
+
 <button class = "backBtn" id ="backBtn">⬅️ Назад</button>
 <h1>Календарь</h1>
 <div class="rewrite">
     <form>
         <input maxlength="2" id = "month" placeholder="Введите номер месяца" required>
         <input maxlength="4" id = "year" placeholder="Введите год" required>
-        <button id = "submit_button">Click!</button>
+        <button id = "submit_button" class="green-btn" style="width: 100px">Click!</button>
     </form>
 </div>
 <div id="result-container">

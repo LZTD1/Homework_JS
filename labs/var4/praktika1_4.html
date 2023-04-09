@@ -5,79 +5,16 @@
     <title>Формулы</title>
 </head>
 <body>
+<link rel="stylesheet" href="styles.css">
+<button class = "backBtn" id ="backBtn">⬅️ Назад</button>
 <style>
-    body{
-        display: flex;
-        font-family: Arial, sans-serif;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        background-color: #f1eeee;
-    }
-    h1{
-        margin-top: 7vh;
-        text-align: center
-    }
     #formInput{
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
     }
-    div.green-btn, select, input{
-        padding: 10px;
-        font-size: 16px;
-        border-radius: 15px;
-        border: none;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    }
-    select{
-        margin-left: 5px;
-        text-align: center;
-    }
-    div.green-btn{
-        width: 295px;
-        text-align: center;
-        background-color: rgba(76, 175, 80, 0.97);
-        margin-top: 25px;
-    }
-    .error {
-        padding: 8px;
-        border: 2px solid transparent; /* красная рамка */
-        animation: blink 1s 2;
-    }
-    .createRamka{
-        margin-top: 20px;
-        padding: 5px;
-        border: 2px solid #2e8b57;
-    }
-    @keyframes blink {
-        0% { border-color: transparent; }
-        50% { border-color: red}
-        100% {
-            border-color: transparent;
-        }
-    }
-    button.backBtn{
-        border: none;
-        padding: 10px;
-        position: absolute;
-        top: 0;
-        left: 0;
-        border-radius: 15px;
-        font-size: 12px;
-        background: rgba(1, 1, 1, 0.3);
-        cursor: pointer;
-        text-align: center;
-        transition: background-color .2s;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    }
-    button.backBtn:hover{
-        background-color: rgba(1, 1, 1, 0.5);
-    }
 </style>
-<button class = "backBtn" id ="backBtn">⬅️ Назад</button>
-
 <h1>Калькулятор</h1>
 <form id="formInput">
     <div class = "form_box">
@@ -101,7 +38,7 @@
             <option value="arcsinh">Гиперболический арксинус</option>
         </select>
     </div>
-    <div id="buttonAnswer" class="green-btn">Жду значения!</div>
+    <div id="buttonAnswer" class="green-btn" style="width: 250px">Жду значения!</div>
 </form>
 <div id="result-container">
     <pre id="result" class="result"></pre>
@@ -153,7 +90,6 @@
             x.classList.add('error'); // добавляем класс error
         }else{
             const func = document.querySelector('#selectID');
-            //document.querySelector('#result-container').classList.add('createRamka'); //
             !isNaN(calculate(func.value, x.value)) ? document.querySelector('#buttonAnswer').innerHTML = calculate(func.value, x.value) : x.classList.add('error');
         }
     });
@@ -172,9 +108,6 @@
     });
     document.getElementById('enterX').addEventListener('input', function() {
         const x = document.querySelector('#enterX');
-        if(x.value.trim() === ""){
-            document.querySelector('#result-container').classList.remove('createRamka'); //
-        }
         x.classList.remove('error'); // убираем класс error
     });
     // Завершение анимации удаляем класс error
