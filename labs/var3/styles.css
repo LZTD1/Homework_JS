@@ -32,3 +32,30 @@ button{
 button:hover{
     background-color: #5682c2;
 }
+th{
+    background-color: rgb(86, 130, 194, 0.5);
+    border-radius: 15px;
+    padding: 5px;
+    height: 50px;
+}
+table{
+    margin-left: 20px;
+    border-radius: 15px;
+    padding: 10px;
+    background: rgb(103, 155, 227, 0.5);
+    width: 25vw;
+
+}
+/*Анимация еррор красной обводки*/
+.error {
+    padding: 8px;
+    border: 2px solid transparent; /* красная рамка */
+    animation: blink 1s 2;
+}
+@keyframes blink {
+    0% { border-color: transparent; }
+    50% { border-color: red}
+    100% {
+        border-color: transparent;
+    }
+}

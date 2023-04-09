@@ -11,5 +11,77 @@
     <input type = "text" placeholder="Введите число" id = "inputNum" />
     <button id="sorting">Sort!</button>
 </div>
+<div class = "TableBlock" style=" margin-top: 50px; display:flex; align-items: flex-start;">
+    <table id="chet">
+        <tr style="text-align:center;">
+            <th>Четные</th>
+        </tr>
+    </table>
+    <table id="nechet">
+        <tr style="text-align:center;">
+            <th>Нечетные</th>
+        </tr>
+        <tr>
+        </tr>
+    </table>
+    <table id="prime" >
+        <tr style="text-align:center;">
+            <th>Простые</th>
+        </tr>
+    </table>
+</div>
+<script>
+    var x = document.getElementById("inputNum");
+    document.getElementById("sorting").addEventListener("click", function (){
+        if(/^\d+$/.test(parseInt(x.value, 10))){
+            let chet = parseInt(x.value, 10) % 2 === 0;
+
+            let isPrime = true;
+            for (let i = 2; i <= Math.sqrt(parseInt(x.value, 10)); i++) {
+                if (parseInt(x.value, 10) % i === 0) {
+                    isPrime = false;
+                    break;
+                }
+            }
+            if(isPrime){
+                let parent = document.getElementById("prime");
+                let row = document.createElement("tr");
+                let field = document.createElement("td");
+                row.appendChild(field);
+                parent.appendChild(row);
+
+                field.style = "text-align: center;"
+                field.innerHTML = parseInt(x.value, 10);
+            }
+            if(chet){
+                let parent = document.getElementById("chet");
+                let row = document.createElement("tr");
+                let field = document.createElement("td");
+                row.appendChild(field);
+                parent.appendChild(row);
+
+                field.style = "text-align: center;"
+                field.innerHTML = parseInt(x.value, 10);
+            }else{
+                let parent = document.getElementById("nechet");
+                let row = document.createElement("tr");
+                let field = document.createElement("td");
+                row.appendChild(field);
+                parent.appendChild(row);
+
+                field.style = "text-align: center;"
+                field.innerHTML = parseInt(x.value, 10);
+            }
+
+
+        }else{
+            x.classList.add('error');
+        }
+
+    });
+    x.addEventListener('animationend', function() {
+        x.classList.remove('error');
+    });
+</script>
 </body>
 </html>
