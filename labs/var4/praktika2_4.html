@@ -8,7 +8,7 @@
 
 <style>
   body{
-    display: flex;
+      display: flex;
     font-family: Arial, sans-serif;
     justify-content: center;
     align-items: center;
@@ -152,7 +152,7 @@
     button.addEventListener("click", function (event){
     event.preventDefault();
     const x = document.querySelector("#number");
-    if (x.value.trim() === '') {
+    if (x.value.trim() === '' || !/^\d+$/.test(x.value)) {
         x.classList.add('error');
     }else{
         if(x.value > 999999999){
@@ -160,20 +160,21 @@
             x.classList.add('error'); // добавляем класс error
         }else{
             document.querySelector('#result-container').classList.add('create_input');
-            document.querySelector('#result-container').innerHTML = numberToWords(x.value)
-            console.log(numberToWords(x.value))
+            document.querySelector('#result-container').innerHTML = numberToWords(x.value);
+            console.log(numberToWords(x.value));
         }
     }
   });
 
   document.getElementById('number').addEventListener('input', function() {
       const x = document.querySelector("#number");
-      if (x.value.trim() === '') {
+      if (x.value.trim() === ''  || !/^\d+$/.test(x.value)) {
           document.querySelector('#result-container').innerHTML = "";
           document.querySelector('#result-container').classList.remove('create_input');
       }else{
           document.querySelector('#result-container').classList.add('create_input');
-          document.querySelector('#result-container').innerHTML = numberToWords(x.value)
+          document.querySelector('#result-container').innerHTML = numberToWords(x.value);
+          console.log(numberToWords(x.value));
       }
       document.querySelector('#number').classList.remove('error'); // убираем класс error
   });

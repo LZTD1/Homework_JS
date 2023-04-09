@@ -154,8 +154,7 @@
         }else{
             const func = document.querySelector('#selectID');
             //document.querySelector('#result-container').classList.add('createRamka'); //
-            document.querySelector('#buttonAnswer').innerHTML = calculate(func.value, x.value);
-            console.log(calculate(func.value, x.value))
+            !isNaN(calculate(func.value, x.value)) ? document.querySelector('#buttonAnswer').innerHTML = calculate(func.value, x.value) : x.classList.add('error');
         }
     });
     document.getElementById('selectID').addEventListener('input', function(event) {
@@ -165,7 +164,7 @@
             if(x.value.trim() === ""){
                 x.classList.add('error'); // добавляем класс error
             }else{
-                document.querySelector('#buttonAnswer').innerHTML = calculate(func.value, x.value);
+                !isNaN(calculate(func.value, x.value)) ? document.querySelector('#buttonAnswer').innerHTML = calculate(func.value, x.value) : x.classList.add('error');
             }
         }else{
             document.querySelector('#buttonAnswer').innerHTML = "Жду значения!";

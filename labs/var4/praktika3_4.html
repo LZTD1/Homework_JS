@@ -153,15 +153,15 @@
         var flag = 0;
         let inputs = document.getElementsByTagName('input');
         for(let i = 0; i < inputs.length; i++) {
-            if(inputs[i].value.trim() === ''){
+            if(inputs[i].value.trim() === '' || !/^\d+$/.test(inputs[i].value)){
                 inputs[i].classList.add('error');
                 flag = 1;
             }
-            if(inputs[i].id === "month" && (inputs[i].value <1 || inputs[i].value>12)){
+            if(inputs[i].id === "month" && (inputs[i].value <1 || inputs[i].value>12) || !/^\d+$/.test(inputs[i].value)){
                 inputs[i].classList.add('error');
                 flag = 1;
             }
-            if(inputs[i].id === "year" && (inputs[i].value < 1990 || inputs[i].value > 2035)){
+            if(inputs[i].id === "year" && (inputs[i].value < 1990 || inputs[i].value > 2035) || !/^\d+$/.test(inputs[i].value)){
                 inputs[i].classList.add('error');
                 flag = 1;
             }
