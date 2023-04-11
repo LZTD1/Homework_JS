@@ -11,26 +11,67 @@
     <input type = "text" placeholder="Введите число" id = "inputNum" />
     <button id="sorting">Sort!</button>
 </div>
-<div class = "TableBlock" style=" margin-top: 50px; display:flex; align-items: flex-start;">
-    <table id="chet">
-        <tr style="text-align:center;">
-            <th>Четные</th>
-        </tr>
-    </table>
-    <table id="nechet">
-        <tr style="text-align:center;">
-            <th>Нечетные</th>
-        </tr>
-        <tr>
-        </tr>
-    </table>
-    <table id="prime" >
-        <tr style="text-align:center;">
-            <th>Простые</th>
-        </tr>
-    </table>
+<div class="tables">
+    <div class="scroll-table" >
+        <table class="tableHead">
+            <thead>
+            <tr style="text-align:center;">
+                <th>Четные</th>
+            </tr>
+            </thead>
+        </table>
+        <div class="scroll-table-body" id="chetTable">
+            <table class="tabResult">
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="scroll-table" >
+        <table class="tableHead">
+            <thead>
+            <tr style="text-align:center;">
+                <th>Нечетные</th>
+            </tr>
+            </thead>
+        </table>
+        <div class="scroll-table-body" id="nechetTable">
+            <table class="tabResult">
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="scroll-table" >
+        <table class="tableHead">
+            <thead>
+            <tr style="text-align:center;">
+                <th>Простые</th>
+            </tr>
+            </thead>
+        </table>
+        <div class="scroll-table-body" id="primeTable">
+            <table class="tabResult">
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 <script>
+    function updateScroll(div) {
+        // получаем высоту содержимого и высоту видимой области
+        const scrollHeight = div.scrollHeight;
+        const clientHeight = div.clientHeight;
+
+        // если высота содержимого больше высоты видимой области, прокручиваем вниз
+        if (scrollHeight > clientHeight) {
+            div.scrollTop = scrollHeight - clientHeight;
+        }
+    }
+
     var x = document.getElementById("inputNum");
     document.getElementById("sorting").addEventListener("click", function (){
         if(/^\d+$/.test(parseInt(x.value, 10))){
@@ -44,33 +85,33 @@
                 }
             }
             if(isPrime){
-                let parent = document.getElementById("prime");
+                let parent = document.querySelector("#primeTable > table > tbody");
                 let row = document.createElement("tr");
                 let field = document.createElement("td");
                 row.appendChild(field);
                 parent.appendChild(row);
 
-                field.style = "text-align: center;"
                 field.innerHTML = parseInt(x.value, 10);
+                updateScroll(document.querySelector("#primeTable"));
             }
             if(chet){
-                let parent = document.getElementById("chet");
+                let parent = document.querySelector("#chetTable > table > tbody");
                 let row = document.createElement("tr");
                 let field = document.createElement("td");
                 row.appendChild(field);
                 parent.appendChild(row);
 
-                field.style = "text-align: center;"
                 field.innerHTML = parseInt(x.value, 10);
+                updateScroll(document.querySelector("#chetTable"));
             }else{
-                let parent = document.getElementById("nechet");
+                let parent = document.querySelector("#nechetTable > table > tbody");
                 let row = document.createElement("tr");
                 let field = document.createElement("td");
                 row.appendChild(field);
                 parent.appendChild(row);
 
-                field.style = "text-align: center;"
                 field.innerHTML = parseInt(x.value, 10);
+                updateScroll(document.querySelector("#nechetTable"));
             }
 
 
