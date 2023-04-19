@@ -50,6 +50,9 @@ select{
     border: none;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
+input:focus {
+    outline: none;
+}
 .green-btn{
     margin-top: 25px;
     border: none;

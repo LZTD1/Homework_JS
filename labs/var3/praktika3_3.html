@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Расстояние</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Определение числа дней между двумя датами</h1>
+<!--<div>-->
+<!--    <label style="font-weight: bold">Начало</label>-->
+<!--    <label style="margin-left: 11vh; font-weight: bold">Конец</label>-->
+<!--</div>-->
+<div>
+    <input id = "startDate" type ="date"/>
+    <input id = "endDate" style="margin-left: 1vh"type ="date" />
+</div>
+<div>
+    <button id = "calculate" style="margin-top: 2vh; padding: 1vw 2vw 1vw 2vw">Рассчитать!</button>
+</div>
+<div id="result-container">
+    <pre id="result" class="result"></pre>
+</div>
+<script>
+    document.getElementById("calculate").addEventListener("click", function () {
+        let startDate = document.getElementById("startDate");
+        let endDate = document.getElementById("endDate");
+
+        if(startDate.value.trim() === ""){
+            startDate.classList.add("error");
+        }
+        if(endDate.value.trim() === ""){
+            endDate.classList.add("error");
+        }
+        if(endDate.value.trim() !== "" && startDate.value.trim() !== ""){
+            startDate = new Date(startDate.value);
+            endDate = new Date(endDate.value);
+            if (startDate > endDate) {
+                [startDate, endDate] = [endDate, startDate]; // меняем местами значения переменных
+            }
+            let yearDiff = endDate.getFullYear() - startDate.getFullYear();
+            let monthDiff = endDate.getMonth() - startDate.getMonth();
+            let dayDiff = endDate.getDate() - startDate.getDate();
+
+            if (dayDiff < 0) {
+                // если дни меньше нуля, значит нужно занять один месяц и добавить количество дней в этом месяце
+                monthDiff -= 1;
+                dayDiff += new Date(endDate.getFullYear(), endDate.getMonth(), 0).getDate();
+            }
+
+            if (monthDiff < 0) {
+                // если месяцы меньше нуля, значит нужно занять один год и добавить количество месяцев в этом году
+                yearDiff -= 1;
+                monthDiff += 12;
+            }
+
+            let result = [
+                { name: 'Года', value: yearDiff },
+                { name: 'Месяца', value: monthDiff },
+                { name: 'Дни', value: dayDiff }
+            ];
+            console.log(result);
+            document.querySelector('#result-container').classList.add('create_input');
+            document.querySelector('#result-container>#result').innerHTML = [
+                `${result[0]['name']} = ${result[0]['value']}`,
+                `${result[1]['name']} = ${result[1]['value']}`,
+                `${result[2]['name']} = ${result[2]['value']}`,
+            ].join("\n");
+
+        }
+
+
+    });
+
+    let inputs = document.getElementsByTagName('input');
+    for(let i = 0; i < inputs.length; i++) {
+        inputs[i].addEventListener('animationend', function() {
+            inputs[i].classList.remove('error');
+        });
+        inputs[i].addEventListener('input', function() {
+            inputs[i].classList.remove('error');
+        });
+    }
+</script>
+</body>
+</html>

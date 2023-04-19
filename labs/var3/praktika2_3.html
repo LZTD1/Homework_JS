@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Шифратор</title>
+</head>
+<body>
+<link rel="stylesheet" href="styles.css">
+<h1>Шифрограмма</h1>
+<div>
+  <input style="border-radius: 15px 0px 0px 15px" id = "inputText" placeholder="Напишите здесь текст...">
+  <input style="border-radius: 0px 15px 15px 0px" id = "inputSwap" type = "number" placeholder="Сдвиг">
+</div>
+<div style = "margin-top: 2vh;">
+  <button id = "encode" style="border-radius: 15px 0px 0px 15px">Шифровка</button>
+  <button id = "decode" style="border-radius: 0px 15px 15px 0px">Дешифровка</button>
+</div>
+
+<script>
+    function caesarCipher(str, shift) {
+        let result = "";
+        for (let i = 0; i < str.length; i++) {
+            let char = str[i];
+            let code = str.charCodeAt(i);
+            if (char.match(/[a-zA-Z]/)) {
+                shift = shift % 26; // ограничиваем значение сдвига до 26
+                // для латинских символов
+                if (code >= 65 && code <= 90) {
+                    char = String.fromCharCode(((code - 65 + shift) % 26) + 65);
+                } else if (code >= 97 && code <= 122) {
+                    char = String.fromCharCode(((code - 97 + shift) % 26) + 97);
+                }
+            } else if (char.match(/[а-яА-Я]/)) {
+                shift = shift % 32;
+                // для кириллических символов
+                if (code >= 1040 && code <= 1071) {
+                    char = String.fromCharCode(((code - 1040 + shift) % 32) + 1040);
+                } else if (code >= 1072 && code <= 1103) {
+                    char = String.fromCharCode(((code - 1072 + shift) % 32) + 1072);
+                }
+            }
+            result += char;
+        }
+        return result;
+    }
+
+    let decodeClicked = false;
+    let encodeClicked = false;
+
+    let button = document.getElementsByTagName('button');
+    for(let i = 0; i < button.length; i++) {
+        button[i].addEventListener('click', function() {
+            if(document.getElementById('inputText').value === ""){
+                document.getElementById('inputText').classList.add('error');
+            }
+            if(document.getElementById('inputSwap').value === ""){
+                document.getElementById('inputSwap').classList.add('error');
+            }
+            if(document.getElementById('inputSwap').value !== "" || document.getElementById('inputText').value === ""){
+                if(button[i].id  === "decode" && decodeClicked === encodeClicked && decodeClicked === false){
+                    document.getElementById('inputText').classList.add('error');
+                }
+                else if(button[i].id  === "decode" && decodeClicked === false){
+                    let result = caesarCipher(document.getElementById('inputText').value, -document.getElementById('inputSwap').value);
+                    document.getElementById('inputText').value = result;
+
+                    decodeClicked = true;
+                    encodeClicked = false;
+
+                }else if(button[i].id  === "decode" && decodeClicked === true){
+                    document.getElementById('inputText').classList.add('error');
+                }
+                if(button[i].id  === "encode" && encodeClicked === false){
+                    let result = caesarCipher(document.getElementById('inputText').value, document.getElementById('inputSwap').value);
+                    document.getElementById('inputText').value = result;
+
+                    decodeClicked = false;
+                    encodeClicked = true;
+
+                }else if(button[i].id  === "encode" && encodeClicked === true){
+
+                    document.getElementById('inputText').classList.add('error');
+                }
+            }
+        });
+
+    }
+
+    let inputs = document.getElementsByTagName('input');
+    for(let i = 0; i < inputs.length; i++) {
+        inputs[i].addEventListener('animationend', function() {
+            inputs[i].classList.remove('error');
+        });
+        inputs[i].addEventListener('input', function() {
+            inputs[i].classList.remove('error');
+            encodeClicked = false;
+            decodeClicked = false;
+        });
+    }
+</script>
+</body>
+</html>
