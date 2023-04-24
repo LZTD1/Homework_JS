@@ -5,6 +5,8 @@
     <title>Шифратор</title>
 </head>
 <body>
+<button class = "backBtn" id ="backBtn">⬅️ Назад</button>
+
 <link rel="stylesheet" href="styles.css">
 <h1>Шифрограмма</h1>
 <div>
@@ -97,6 +99,9 @@
             decodeClicked = false;
         });
     }
+    document.getElementById('backBtn').addEventListener("click", function (event) {
+        window.location.href = "../../";
+    });
 </script>
 </body>
 </html>

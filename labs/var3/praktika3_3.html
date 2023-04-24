@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<button class = "backBtn" id ="backBtn">⬅️ Назад</button>
+
 <h1>Определение числа дней между двумя датами</h1>
 <!--<div>-->
 <!--    <label style="font-weight: bold">Начало</label>-->
@@ -81,6 +83,9 @@
             inputs[i].classList.remove('error');
         });
     }
+    document.getElementById('backBtn').addEventListener("click", function (event) {
+        window.location.href = "../../";
+    });
 </script>
 </body>
 </html>

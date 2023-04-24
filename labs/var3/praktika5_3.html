@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cookies-tester</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+
+<body>
+<button class = "backBtn" id ="backBtn">⬅️ Назад</button>
+
+<h1>
+    Куки-тестер
+</h1>
+<div>
+    <span id ="countInput" class="create_cartochka" style="padding: 9px; margin-right: 10px">Ты посетил эту страницу   раз.</span>
+    <button id ="clear">Отчистить куки</button>
+</div>
+<script>
+    // Определение функции для установки cookie
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }
+
+    // Определение функции для получения cookie
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0;i < ca.length;i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1,c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+        return null;
+    }
+
+    // Увеличение значения cookie на 1 или установка значения 1, если cookie еще не установлен
+    var visits = getCookie("visits");
+    if (visits) {
+        visits = parseInt(visits) + 1;
+    } else {
+        visits = 1;
+    }
+    setCookie("visits", visits, 365);
+    // Функция для удаления всех cookie
+    function deleteCookie(name) {
+        document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
+
+    // Функция для удаления всех cookie
+    function deleteAllCookies() {
+        var cookies = document.cookie.split(";"); // Получение всех cookie
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i];
+            var eqPos = cookie.indexOf("=");
+            var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+            deleteCookie(name); // Удаление cookie по имени
+        }
+    }
+    window.addEventListener('load', function() {
+        let image = document.getElementById('countInput');
+        image.innerHTML = `Ты посетил эту страницу ${visits} раз.`;
+    });
+    document.getElementById("clear").addEventListener("click", function (){
+        deleteAllCookies();
+
+        let image = document.getElementById('countInput');
+        image.innerHTML = `Ты посетил эту страницу 0 раз.`;
+    });
+    document.getElementById('backBtn').addEventListener("click", function (event) {
+        window.location.href = "../../";
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+:root {
+    --color-main-green: #2bab64;
+    --color-darkness-green: #248652;
+    --color-main-blue: #679be3;
+    --color-darkness-blue: #4b79b9;
+}
+body{
+    display: flex;
+    font-family: Arial, sans-serif;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #f1eeee;
+}
+h1{
+    text-align: center
+}
+.create_cartochka{
+    margin-top: 3vh;
+    width: 40vw;
+    border-radius: 20px;
+}
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 3vh;
+    flex-wrap: wrap;
+
+}
+.button{
+    max-width: 99%;
+    border-radius: 20px;
+    padding: 1vh;
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+.create_cartochka-green{
+    border: 2px solid rgb(40, 108, 72);
+
+    background-color: rgb(43, 171, 100, 0.3);
+}
+.create_cartochka-blue{
+    border: 2px solid var(--color-main-blue);
+    background-color: rgb(103, 155, 227, 0.3);
+}
+
+.green-btn{
+    border: none;
+    background: var(--color-main-green);
+    transition: background-color .2s;
+}
+.green-btn:hover{
+    background-color: var(--color-darkness-green);
+}
+.blue-btn{
+    border: none;
+    background: var(--color-main-blue);
+    transition: background-color .2s;
+
+}
+.blue-btn:hover{
+    background-color: var(--color-darkness-blue);
+}

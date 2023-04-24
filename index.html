@@ -5,51 +5,49 @@
     <title>Main page</title>
 </head>
 <body>
-<style>
-    .green-btn{
-        width: 12vh;
-        margin-left: 10px;
-    }
-</style>
-<link rel="stylesheet" href="labs/var4/styles.css">
+<link rel="stylesheet" href="labs/style.css">
 
 <h1 class = "margin-top: 10vh;">Демонстрация лабараторных работ</h1>
-<div class ="create_cartochka">
+<div class ="create_cartochka create_cartochka-green">
     <h1>Вариант 4:</h1>
     <div class="buttons">
-        <button class="green-btn">Задание 1</button>
-        <button class="green-btn">Задание 2</button>
-        <button class="green-btn">Задание 3</button>
-        <button class="green-btn">Задание 4</button>
+        <button class="button green-btn">Задание 1</button>
+        <button class="button green-btn">Задание 2</button>
+        <button class="button green-btn">Задание 3</button>
+        <button class="button green-btn">Задание 4</button>
+    </div>
+</div>
+<div class ="create_cartochka create_cartochka-blue" >
+    <h1>Вариант 3:</h1>
+    <div class="buttons">
+        <button class="button blue-btn">Задание 1</button>
+        <button class="button blue-btn">Задание 2</button>
+        <button class="button blue-btn">Задание 3</button>
+        <button class="button blue-btn">Задание 4</button>
+        <button class="button blue-btn">Задание 5</button>
     </div>
 </div>
 
 
 <script>
-let btns = document.getElementsByClassName("green-btn");
-for(let i = 0; i < btns.length; i++) {
-    btns[i].addEventListener("click", function(){
-        let path;
-       switch (parseInt(btns[i].textContent[btns[i].textContent.length-1], 10)){
-           case 1:
-               path = "labs/var4/praktika1_4.html"
-               break;
-           case 2:
-               path = "labs/var4/praktika2_4.html"
-               break;
-           case 3:
-               path = "labs/var4/praktika3_4.html"
-               break;
-           case 4:
-               path = "labs/var4/praktika4_4.html"
-               break;
-           default:
-               path = NaN;
-               break;
-       }
-        window.location.href = path;
+    // получаем все кнопки
+    const buttons = document.querySelectorAll('.button');
+
+    // перебираем кнопки и добавляем обработчик события "click"
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            // получаем номер задания
+            const taskNumber = button.textContent.split(' ')[1];
+            // получаем вариант
+            const variant = button.parentElement.parentElement.querySelector('h1').textContent.split(' ')[1].split(':')[0];
+            // формируем путь
+            const path = `labs/var${variant}/praktika${taskNumber}_${variant}.html`;
+            // переходим на страницу
+            window.location.href = path;
+        });
     });
-}
+
+
 </script>
 </body>
 </html>

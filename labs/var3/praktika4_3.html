@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image-switcher</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<button class = "backBtn" id ="backBtn">⬅️ Назад</button>
+
+
+<style>
+    img{
+        border-radius: 15px;
+    }
+</style>
+<h1>Перключалка изображений</h1>
+<div class ="create_cartochka">
+  <img id="image-placeholder" style ="size:60px 60px" src="">
+</div>
+<div style="margin-top: 1vh">
+  <button id = "previous" style="border-radius: 15px 0px 0px 15px">Предыдущая</button>
+  <button id = "next" style="border-radius: 0px 15px 15px 0px">Следующая</button>
+</div>
+
+
+<script>
+  let links = [
+    "https://natali36.ru/wp-content/uploads/2021/09/frukty-1.png",
+    "https://lh3.googleusercontent.com/fTVqN-PsxjkWU2zfyIq4c_ZfzFal7oYFxxkq-yvKydlQnX7MspqX-WagckEIMzdZF7Ph",
+    "https://play-lh.googleusercontent.com/Jysy5wVXZWVryLvI1vK0QEXrfWrPQJcgnFSfH3LySWS2v6ibnICBv9y9xPDVdJRckmU",
+    "https://lh3.googleusercontent.com/xp8GF9gOWiJ2AmSSbAJuUwn-bhMLz2MVUQVv6-yi0-ZcPDe5MF8SQ4koW6q2-EzMHg",
+    "https://i.pinimg.com/originals/07/94/a2/0794a2f45bed2d329ab3460ebbe44f00.png",
+    "https://lh3.googleusercontent.com/t0Nr9HD9KUfua3FlL6RCKTnLCDPTOm4FOLKZDdhdqjmnJ3D-Ioq6ZY-ssz_x6EbCidiA",
+    "https://storage.easyx.ru/images/easydonate/logos/EOPMmXvdDsY3yNrGUa1s9pVRAaBdgmYQ.png",
+    "https://play-lh.googleusercontent.com/GCTTKqUOUs-IXyNzjosy_9zmawa2MSGmphFfOOlXVphqjZ7FoSJP8JzkGLbJAzNPXFg",
+    "https://cdn.shopify.com/s/files/1/2710/0074/products/FamilyBox_shadow_512x.png?v=1563068385",
+    "https://lh3.googleusercontent.com/Nezr4VKL5eF_ulDSIZi0C2D0NC_UA5EJd3y8ByM48XFIELykyb3w76cj9EbZP3HwKA=w512",
+  ];
+  let currentID = 0;
+
+  function validateID(id){
+      id = id > 9? 0 : (id < 0 ? 9 : id);
+      return id;
+  }
+
+  document.getElementById("next").addEventListener("click", function(){
+
+    currentID = validateID(++currentID);
+      console.log(currentID);
+    document.getElementById('image-placeholder').src = links[currentID];
+  });
+  document.getElementById("previous").addEventListener("click", function(){
+
+      currentID = validateID(--currentID);
+      console.log(currentID);
+    document.getElementById('image-placeholder').src = links[currentID];
+  });
+  window.addEventListener('load', function() {
+      let image = document.getElementById('image-placeholder');
+      image.src = links[0];
+  });
+  document.getElementById('backBtn').addEventListener("click", function (event) {
+      window.location.href = "../../";
+  });
+</script>
+</body>
+</html>

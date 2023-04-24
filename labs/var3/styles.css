@@ -103,7 +103,26 @@ div.tables{
     overflow: hidden;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
-
+button.backBtn{
+    border: none;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 12px;
+    width: 200px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 15px;
+    font-size: 16px;
+    background: rgba(1, 1, 1, 0.3);
+    cursor: pointer;
+    text-align: center;
+    transition: background-color .2s;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+button.backBtn:hover{
+    background-color: rgba(1, 1, 1, 0.5);
+}
 /*Анимация еррор красной обводки*/
 .error {
     padding: 8px;

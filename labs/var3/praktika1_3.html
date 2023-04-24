@@ -5,6 +5,7 @@
     <title>Разбивка чисел на группы</title>
 </head>
 <body>
+<button class = "backBtn" id ="backBtn">⬅️ Назад</button>
 <link rel="stylesheet" href="styles.css">
 <h1>Свойства чисел</h1>
 <div>
@@ -122,6 +123,9 @@
     });
     x.addEventListener('animationend', function() {
         x.classList.remove('error');
+    });
+    document.getElementById('backBtn').addEventListener("click", function (event) {
+        window.location.href = "../../";
     });
 </script>
 </body>
